@@ -1,0 +1,24 @@
+---
+title: "Resource Expansion"
+---
+
+Some of Terminal's endpoints feature an `expand` parameter that allows you to expand nested resources. This helps you get straight to the data you're looking for in less requests.
+
+## Example 
+
+As an example, if you are calling an expandable endpoint that includes the following relationship:
+```json
+{
+  "vehicle": "vcl_01GSKTHKXVVS2EKE6MP0N20YPE"
+}
+```
+By providing `expand=vehicle` in the request you can expand the field to include all details:
+```json
+{
+  "vehicle": {
+    "id": "vcl_01GSKTHKXVVS2EKE6MP0N20YPE",
+    "vin": "12345"
+    // ... other vehicle properties
+  }
+}
+```

@@ -1,0 +1,48 @@
+---
+title: "Getting Started"
+description: "Here's a step-by-step guide to get started integrating telematics data with Terminal."
+---
+
+<Check>
+**Prerequisites**
+
+You must have a valid sandbox secret and publishable key to follow guide. Reach out to us at connect@withterminal.com to get access.
+</Check>    
+
+## Getting Started
+
+1. Launch the Link
+Replace `PUBLISHABLE_KEY` and navigate to the Link URL below in order to create a new connection.
+```
+https://link.sandbox.withterminal.com/?key=PUBLISHABLE_KEY&backfill_days=2&redirect_url=https%3A%2F%2Fpostman-echo.com%2Fget
+```
+2. Authenticate with Sandbox Provider
+Select the Sandbox provider and enter any value as an API Key to create a connection.
+
+3. Copy Public Token from Redirect
+After redirect, take the public `token` appended to the redirected page and copy it to your clipboard.
+
+4. Exchange Public Token
+Exchange this public token for a long-lived connection token using [`POST /public-token/exchange.`]()
+    
+    _Replace `SECRET_KEY` and `PUBLIC_TOKEN` with the relevant values_
+
+
+5. Check Connection Status
+Poll [`GET /connections/current`]() endpoint until initial sync is complete (can skip step but should expect it to be activley ingesting still)
+
+    _Replace `SECRET_KEY` and `CONNECTION_TOKEN` with the relevant values_
+
+6. List Vehicles
+List synced vehicles with [`GET /vehicles`]()
+
+    _Replace `SECRET_KEY` and `CONNECTION_TOKEN` with the relevant values_
+
+7. Explore the Rest
+<Check>
+You are ready to start exploring the rest of what Terminal has to offer!
+</Check>
+
+_Possible Next Steps:_
+- [Explore more endpoints using the HTTP console built in to our docs →]()
+- [Learn more about the Link and it's available options →]()

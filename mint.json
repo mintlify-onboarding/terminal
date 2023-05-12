@@ -1,6 +1,5 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
-  "name": "Documentation Starter Kit",
+  "name": "Terminal",
   "logo": {
     "dark": "/logo/dark.png",
     "light": "/logo/light.png"
@@ -13,8 +12,8 @@
   },
   "topbarLinks": [
     {
-      "name": "Documentation",
-      "url": "https://mintlify.com/docs"
+      "name": "Contact Us",
+      "url": "https://www.withterminal.com/"
     }
   ],
   "topbarCtaButton": {
@@ -26,18 +25,11 @@
       "name": "API Reference",
       "icon": "rectangle-terminal",
       "url": "api-reference"
-    },
-    {
-      "name": "Changelog",
-      "icon": "list",
-      "url": "https://mintlify.com"
-    },
-    {
-      "name": "Community",
-      "icon": "discord",
-      "url": "https://mintlify.com/community"
     }
   ],
+  "api": {
+    "baseUrl": "https://api.withterminal.com/tsp/v1"
+  },
   "navigation": [
     {
       "group": "Welcome",
@@ -46,26 +38,39 @@
     {
       "group": "Introduction",
       "pages": [
-        "introduction"
+        "introduction",
+        "getting-started"
+      ]
+    },
+    {
+      "group": "Terminal API Basics",
+      "pages": [
+        "terminal-basics/authentication",
+        "terminal-basics/resource-expansion",
+        "terminal-basics/environments"
       ]
     },
     {
       "group": "API Documentation",
-      "pages": ["api-reference/authentication"]
+      "pages": ["api-reference/overview"]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Authentication",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "api-reference/authentication/public-token"
+      ]
+    },
+    {
+      "group": "Vehicles",
+      "pages": [
+        "api-reference/vehicles/list-vehicles",
+        "api-reference/vehicles/get-vehicle",
+        "api-reference/vehicles/historical-vehicle-locations",
+        "api-reference/vehicles/historical-vehicle-stats"
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "website": "https://www.withterminal.com/"
   }
 }

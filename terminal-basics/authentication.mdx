@@ -1,0 +1,44 @@
+---
+title: "Authentication"
+---
+## Overview
+
+When authenticating with Terminal there are 3 main types of credentials you need to know about. This guide will provide an overview of each and where you use them.
+
+### Secret Key
+
+The secret key is used to authenticate requests to Terminal's API. Get it from your Dashboard or the Terminal team.
+
+<Warning>
+Your secret key should never be shared publicly as it will grant access to all of yours and your customer's data
+</Warning>
+
+**Usage**
+
+All API calls to Terminal should include the following header:
+
+```
+Authorization: Bearer SECRET_KEY
+```
+
+### Connection Token
+Connection tokens tell Terminal which connection you would like to make the API request on behalf of. These are generated during the [linking flow]().
+
+**Usage**
+
+All API calls to Terminal requesting customer data on behalf of a connection should include the following header.
+```
+Connection-Token: CONNECTION_TOKEN
+```
+
+### Publishable Key
+The publishable key is used to identify your application during the link flow. This key is intended to be shared publically from your client or shared links.
+
+**Usage**
+
+Append the publishable key to the link URL when directing users to create a connection.
+```
+https://link.withterminal.com/?key=PUBLISHABLE_KEY
+```
+
+

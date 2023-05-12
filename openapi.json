@@ -1,0 +1,2752 @@
+{
+    "openapi": "3.1.0",
+    "x-stoplight": {
+        "id": "sajjnwkwwdu5q"
+    },
+    "info": {
+        "title": "Terminal Telematics API",
+        "description": "Terminal is a unified API that makes it easy to integrate with the leading telematics service providers.",
+        "version": "0.0",
+        "contact": {
+            "name": "Terminal",
+            "email": "connect@withterminal.com",
+            "url": "https://www.withterminal.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://api.sandbox.withterminal.com/tsp/v1",
+            "description": "Sandbox"
+        }
+    ],
+    "paths": {
+        "/public-token/exchange": {
+            "post": {
+                "summary": "Public Token Exchange",
+                "operationId": "publicTokenExchange",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Connection"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Exchange the `publicToken` returned by our hosted authentication flow for a long lived connection token that will be used when requesting data from a customer's TSP.",
+                "tags": [
+                    "Authentication"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "publicToken": {
+                                        "$ref": "#/components/schemas/PublicToken"
+                                    }
+                                },
+                                "required": [
+                                    "publicToken"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicles": {
+            "get": {
+                "summary": "List Vehicles",
+                "tags": [
+                    "Vehicles"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Vehicle"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listVehicles",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedAfter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedBefore"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    }
+                ],
+                "description": "List all of the vehicles in the connected account"
+            },
+            "parameters": []
+        },
+        "/vehicles/{id}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "id",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "get": {
+                "summary": "Get Vehicle",
+                "tags": [
+                    "Vehicles"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Vehicle"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "getVehicle",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    }
+                ],
+                "description": "Get the details of a specific vehicle"
+            }
+        },
+        "/drivers": {
+            "get": {
+                "summary": "List Drivers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Driver"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listDrivers",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedAfter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedBefore"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    }
+                ],
+                "tags": [
+                    "Drivers"
+                ],
+                "description": "List all of the drivers in the connected account"
+            },
+            "parameters": []
+        },
+        "/drivers/{id}": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "id",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "get": {
+                "summary": "Get Driver",
+                "tags": [
+                    "Drivers"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Driver"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "getDriver",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    }
+                ],
+                "description": "Get the details of a specific driver"
+            }
+        },
+        "/hos/logs": {
+            "get": {
+                "summary": "List Hours of Service Logs",
+                "tags": [
+                    "Hours of Service"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/HOSLog"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listHOSLogs",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "in": "query",
+                        "name": "startedAfter",
+                        "description": "Only include records of statuses that started after a provided date."
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "in": "query",
+                        "name": "startedBefore",
+                        "description": "Only include records of statuses that started before a provided date."
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedAfter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedBefore"
+                    },
+                    {
+                        "$ref": "#/components/parameters/DriverIds"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "driver",
+                                "vehicle",
+                                "codrivers",
+                                "driver,vehicle",
+                                "driver,codrivers",
+                                "vehicle,driver",
+                                "vehicle,codrivers",
+                                "codrivers,driver",
+                                "codrivers,vehicle",
+                                "driver,vehicle,codrivers",
+                                "driver,codrivers,vehicle",
+                                "vehicle,driver,codrivers",
+                                "vehicle,codrivers,driver",
+                                "codrivers,driver,vehicle",
+                                "codrivers,vehicle,driver"
+                            ]
+                        },
+                        "in": "query",
+                        "name": "expand",
+                        "description": "Expand resources in the returned response"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    }
+                ],
+                "description": "List all hours of service logs. Currently, HOS logs are tracked as the distinct changes in duty status. In the future we will be offering endpoints to expose current HOS status and historical daily summaries."
+            },
+            "parameters": []
+        },
+        "/vehicles/{vehicleId}/locations": {
+            "get": {
+                "summary": "Historical Vehicle Locations",
+                "tags": [
+                    "Vehicles"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VehicleLocation"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listHistoricalVehicleLocations",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/StartAt"
+                    },
+                    {
+                        "$ref": "#/components/parameters/EndAt"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Feed"
+                    }
+                ],
+                "description": "List the historical breadcrumb locations for a vehicle.\n\n*Note:*\n\nGiven the large volume of location data available, we encourage customers to accept compressed (`gzip`) responses in order to maximize throughput. This is supported with many popular HTTP clients. Result limits vary depending on if results are compressed or not."
+            },
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "vehicleId",
+                    "in": "path",
+                    "required": true,
+                    "description": "Vehicle to retrieve breadcrumb locations for"
+                }
+            ]
+        },
+        "/vehicles/{vehicleId}/stats/historical": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "vehicleId",
+                    "in": "path",
+                    "required": true
+                }
+            ],
+            "get": {
+                "summary": "Historical Vehicle Stats",
+                "tags": [
+                    "Vehicles"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VehicleStatLog"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listHistoricalVehicleStats",
+                "description": "List historical stats and logs about the vehicle.",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "vehicle"
+                            ]
+                        },
+                        "in": "query",
+                        "name": "expand",
+                        "description": "Expand resources in the returned response"
+                    },
+                    {
+                        "$ref": "#/components/parameters/StartAt"
+                    },
+                    {
+                        "$ref": "#/components/parameters/EndAt"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "example": "odometer,engine_state"
+                        },
+                        "in": "query",
+                        "name": "types",
+                        "description": "Comma separated list of vehicle stats to filter for",
+                        "required": false
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Feed"
+                    }
+                ]
+            }
+        },
+        "/safety/events": {
+            "get": {
+                "summary": "List Safety Events",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SafetyEvent"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listSafetyEvents",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedAfter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/ModifiedBefore"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "in": "query",
+                        "name": "startedAfter",
+                        "description": "Only include records of statuses that started after a provided date."
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "in": "query",
+                        "name": "startedBefore",
+                        "description": "Only include records of statuses that started before a provided date."
+                    },
+                    {
+                        "$ref": "#/components/parameters/DriverIds"
+                    },
+                    {
+                        "$ref": "#/components/parameters/VehicleIds"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "vehicle",
+                                "driver",
+                                "driver,vehicle",
+                                "vehicle,driver"
+                            ]
+                        },
+                        "in": "query",
+                        "name": "expand",
+                        "description": "Expand resources in the returned response"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "speeding",
+                                "harsh_brake",
+                                "harsh_acceleration",
+                                "harsh_turn",
+                                "crash"
+                            ]
+                        },
+                        "in": "query",
+                        "name": "type",
+                        "description": "Type of safety event to filter for"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Raw"
+                    }
+                ],
+                "tags": [
+                    "Safety"
+                ],
+                "description": "List all safety events detected by the provider."
+            },
+            "parameters": []
+        },
+        "/connections": {
+            "get": {
+                "summary": "List All Connections",
+                "tags": [
+                    "Connections"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Connection"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listConnections",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "externalId"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "dotNumber"
+                    }
+                ],
+                "description": "List all of the connections you have for your application. Connections represent the authenticated access you have to your customer's TSP data."
+            },
+            "parameters": [],
+            "post": {
+                "summary": "[beta] Create Connection",
+                "operationId": "createConnection",
+                "description": "Create a new connection via API. This endpoint can be used to provide a completely custom connection creation experience for your customers.\n\nFor most use cases we recommend using the [Link UI](./rhuaxk9205cn8-link-component) to create connections.",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Connection"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity (WebDAV)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "x-stoplight": {
+                                                "id": "jifmayyagk51r"
+                                            },
+                                            "enum": [
+                                                "invalid_credentials",
+                                                "insufficient_permissions",
+                                                "connection_error",
+                                                "internal_server_error"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "x-stoplight": {
+                                                "id": "ku3o1x83xexwe"
+                                            }
+                                        },
+                                        "detail": {
+                                            "type": "array",
+                                            "x-stoplight": {
+                                                "id": "ddnpajo0k84jh"
+                                            },
+                                            "items": {
+                                                "x-stoplight": {
+                                                    "id": "0r9e4c9g2ghtq"
+                                                },
+                                                "type": "object",
+                                                "properties": {
+                                                    "message": {
+                                                        "type": "string",
+                                                        "x-stoplight": {
+                                                            "id": "9mvrf1sfpa7xk"
+                                                        }
+                                                    },
+                                                    "path": {
+                                                        "type": "string",
+                                                        "x-stoplight": {
+                                                            "id": "69ul73csc8li9"
+                                                        }
+                                                    },
+                                                    "suggestion": {
+                                                        "type": "string",
+                                                        "x-stoplight": {
+                                                            "id": "b9xse395xnubr"
+                                                        }
+                                                    },
+                                                    "context": {
+                                                        "type": "object",
+                                                        "x-stoplight": {
+                                                            "id": "k10n85qov91x9"
+                                                        }
+                                                    }
+                                                },
+                                                "required": [
+                                                    "message"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "additionalProperties": true,
+                                "allOf": [
+                                    {
+                                        "$ref": "./provider-credentials.openapi.json#/components/schemas/ProviderCredentials",
+                                        "x-stoplight": {
+                                            "id": "652tmw0gn0kbg"
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "company": {
+                                                "type": "object",
+                                                "x-stoplight": {
+                                                    "id": "lhkb9khud6ez0"
+                                                },
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "x-stoplight": {
+                                                            "id": "aqh3qnrzn5q92"
+                                                        }
+                                                    },
+                                                    "dotNumbers": {
+                                                        "type": "array",
+                                                        "x-stoplight": {
+                                                            "id": "7aikbbr0a9hoy"
+                                                        },
+                                                        "items": {
+                                                            "x-stoplight": {
+                                                                "id": "a1eimmxs3h68p"
+                                                            },
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "externalId": {
+                                                "type": "string",
+                                                "x-stoplight": {
+                                                    "id": "qn5g7cok2zzed"
+                                                }
+                                            },
+                                            "syncMode": {
+                                                "$ref": "#/components/schemas/SyncMode",
+                                                "x-stoplight": {
+                                                    "id": "25lezphglrgud"
+                                                }
+                                            },
+                                            "backfill": {
+                                                "x-stoplight": {
+                                                    "id": "3fwcqymlsqahx"
+                                                },
+                                                "description": "Optional backfill to be requested upon successful connection. Will start from NOW if not provided.",
+                                                "type": "object",
+                                                "properties": {
+                                                    "syncFrom": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "days": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 180
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Connections"
+                ]
+            }
+        },
+        "/connections/current": {
+            "get": {
+                "summary": "Get Current Connection",
+                "tags": [
+                    "Connections"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "description": "The connection your application has with your customer's TSP.",
+                                    "properties": {
+                                        "id": {
+                                            "$ref": "#/components/schemas/Ulid"
+                                        },
+                                        "company": {
+                                            "type": "object",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Acme Inc.",
+                                                    "description": "The name of the company."
+                                                },
+                                                "dotNumbers": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "1234567",
+                                                        "description": "The DOT number of the company."
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "T9klMDQrcHdm9jrtHuOS2Nf06BIHwMNjpPXPMB",
+                                            "description": "This token is used when interacting with a connections' data."
+                                        },
+                                        "externalId": {
+                                            "type": "string",
+                                            "example": "1234",
+                                            "description": "An optional ID from your system that can be used to reference connections."
+                                        },
+                                        "status": {
+                                            "$ref": "#/components/schemas/ConnectionStatus"
+                                        },
+                                        "provider": {
+                                            "type": "object",
+                                            "properties": {
+                                                "code": {
+                                                    "$ref": "#/components/schemas/ProviderCode"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Geotab",
+                                                    "description": "The name of the Telematics Service Provider."
+                                                }
+                                            },
+                                            "required": [
+                                                "code",
+                                                "name"
+                                            ]
+                                        },
+                                        "syncMode": {
+                                            "$ref": "#/components/schemas/SyncMode"
+                                        },
+                                        "lastSync": {
+                                            "$ref": "#/components/schemas/Sync"
+                                        },
+                                        "createdAt": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updatedAt": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "status",
+                                        "provider",
+                                        "company",
+                                        "syncMode",
+                                        "token",
+                                        "createdAt",
+                                        "updatedAt"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "getCurrentConnection",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    }
+                ],
+                "description": "Get the details of the current active connection. The current connection is derived from the provided connection token."
+            },
+            "parameters": [],
+            "patch": {
+                "summary": "Update Current Connection",
+                "operationId": "updateCurrentConnection",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Connection"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/UnprocessableEntityError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "tags": [
+                    "Connections"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "company": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Acme Inc.",
+                                                "description": "The name of the company."
+                                            }
+                                        }
+                                    },
+                                    "externalId": {
+                                        "type": "string"
+                                    },
+                                    "syncMode": {
+                                        "$ref": "#/components/schemas/SyncMode"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": ""
+                },
+                "description": "Update the details of the current active connection. The current connection is derived from the provided connection token."
+            }
+        },
+        "/syncs": {
+            "post": {
+                "summary": "Request Sync",
+                "operationId": "requestSync",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Sync"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "tags": [
+                    "Data Management"
+                ],
+                "description": "Manually request to sync the current connections data.\n\nBy default, Terminal will sync all connections where `syncMode = automatic` on a regular cadence. For customers that may not need a fleet's data to be kept up to date and want to reduce their active tracked trucks, you can set `syncMode = manual` and invoke this endpoint when you want to sync data.\n\nIf you're wondering if this is relevent to your use case then feel free to reach out and we'd be happy to assist.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "description": "How to sync the data. If `startFrom` is not provided, it will either sync from the last time a sync was requested or `now` if the connection has no sync history. Can also provide `days` instead of `startFrom` and it will be converted to a date and used in place of `startFrom`.",
+                                "properties": {
+                                    "startFrom": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "description": "When to start syncing from. If `startFrom` is not provided, it will either sync from the last time a sync was requested or `now` if the connection has no sync history."
+                                    },
+                                    "days": {
+                                        "type": "number",
+                                        "description": "How many days of history to sync from `now`. Will be converted to a date and used in place of `startFrom`",
+                                        "minimum": 0,
+                                        "maximum": 180
+                                    }
+                                },
+                                "example": {
+                                    "days": 7
+                                }
+                            }
+                        }
+                    },
+                    "description": ""
+                }
+            },
+            "get": {
+                "summary": "List Sync History",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Sync"
+                                            }
+                                        },
+                                        "next": {
+                                            "$ref": "#/components/schemas/PaginationCursor"
+                                        }
+                                    },
+                                    "required": [
+                                        "results"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "listSyncHistory",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Cursor"
+                    },
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "requested",
+                                "in_progress",
+                                "completed",
+                                "failed"
+                            ]
+                        },
+                        "in": "query",
+                        "name": "status"
+                    }
+                ],
+                "tags": [
+                    "Data Management"
+                ],
+                "description": "List a log of all batch sync jobs for the current connection."
+            },
+            "parameters": []
+        },
+        "/syncs/{id}": {
+            "get": {
+                "summary": "Get Sync Job Status",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Sync"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "operationId": "getSyncJobStatus",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    }
+                ],
+                "tags": [
+                    "Data Management"
+                ],
+                "description": "Get the status of a sync job by ID."
+            },
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "name": "id",
+                    "in": "path",
+                    "required": true
+                }
+            ]
+        },
+        "/passthrough": {
+            "post": {
+                "summary": "Passthrough",
+                "operationId": "passthrough",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/ConnectionToken"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PassthroughOutput"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequestError"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/ForbiddenError"
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/UnprocessableEntityError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/InternalServerError"
+                    }
+                },
+                "description": "Make an authenticated request to the underlying telematics provider. \n\nThis endpoint helps ensure that you are never limited by Terminal. You can use passthrough requests to access capabilities that may be limited to a specific TSP or not yet in the normalized model.\n\nOur team is here an ready to support custom use cases that may need `/passthrough`",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PassthroughInput"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Data Management"
+                ]
+            },
+            "parameters": []
+        }
+    },
+    "components": {
+        "schemas": {
+            "ProviderCode": {
+                "title": "Provider Code",
+                "type": "string",
+                "enum": [
+                    "sandbox",
+                    "samsara",
+                    "geotab",
+                    "motive",
+                    "isaac",
+                    "bigroad",
+                    "eroad",
+                    "fleetcomplete",
+                    "verizon-reveal",
+                    "azuga",
+                    "webfleet"
+                ],
+                "example": "geotab"
+            },
+            "ConnectionStatus": {
+                "title": "Connection Status",
+                "x-stoplight": {
+                    "id": "nnnhfizz2cgf1"
+                },
+                "type": "string",
+                "description": "Enum values:\n- `connected`: active and authenticated connection\n- `disconnected`: connection is no longer authenticated - please ask your user to link the account again",
+                "enum": [
+                    "connected",
+                    "disconnected"
+                ]
+            },
+            "SyncMode": {
+                "title": "SyncMode",
+                "x-stoplight": {
+                    "id": "rcfdm5fzsx2td"
+                },
+                "type": "string",
+                "enum": [
+                    "automatic",
+                    "manual"
+                ],
+                "description": "Enum values:\n- `automatic`: Terminal will keep this connections data up to date\n- `manual`: Terminal will only sync data upon request",
+                "default": "automatic"
+            },
+            "Connection": {
+                "title": "Connection",
+                "x-stoplight": {
+                    "id": "t0phessn7j4yh"
+                },
+                "type": "object",
+                "description": "The connection your application has with your customer's TSP.",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "company": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Frank's Trucking",
+                                "description": "Optional name of the connection. This is what you will see in the Terminal UI."
+                            },
+                            "dotNumbers": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "example": "1234567"
+                                },
+                                "description": "Optional DOT numbers associated with this connection. This is what you will see in the Terminal UI."
+                            }
+                        }
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/ConnectionStatus"
+                    },
+                    "provider": {
+                        "type": "object",
+                        "properties": {
+                            "code": {
+                                "$ref": "#/components/schemas/ProviderCode"
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Geotab",
+                                "description": "The name of the Telematics Service Provider."
+                            }
+                        },
+                        "required": [
+                            "code",
+                            "name"
+                        ]
+                    },
+                    "externalId": {
+                        "type": "string",
+                        "example": "1234",
+                        "description": "An optional ID from your system that can be used to reference connections."
+                    },
+                    "syncMode": {
+                        "$ref": "#/components/schemas/SyncMode"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "T9klMDQrcHdm9jrtHuOS2Nf06BIHwMNjpPXPMB",
+                        "description": "This token is used when interacting with a connections' data."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "status",
+                    "provider",
+                    "syncMode",
+                    "token",
+                    "company",
+                    "createdAt",
+                    "updatedAt"
+                ]
+            },
+            "Driver": {
+                "title": "Driver",
+                "type": "object",
+                "additionalProperties": false,
+                "examples": [],
+                "x-stoplight": {
+                    "id": "66f390b797a85"
+                },
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "sourceId": {
+                        "$ref": "#/components/schemas/SourceId"
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive"
+                        ],
+                        "description": "The status in the providers system"
+                    },
+                    "firstName": {
+                        "type": "string",
+                        "example": "Mike"
+                    },
+                    "middleName": {
+                        "type": "string",
+                        "example": "Bryan"
+                    },
+                    "lastName": {
+                        "type": "string",
+                        "example": "Miller"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone": {
+                        "$ref": "#/components/schemas/Phone"
+                    },
+                    "license": {
+                        "type": "object",
+                        "properties": {
+                            "state": {
+                                "$ref": "#/components/schemas/State"
+                            },
+                            "number": {
+                                "type": "string",
+                                "example": "123-456-789-0"
+                            }
+                        }
+                    },
+                    "raw": {
+                        "$ref": "#/components/schemas/RawDataList",
+                        "x-stoplight": {
+                            "id": "ydia78mcelsqu"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "provider",
+                    "status"
+                ]
+            },
+            "Vehicle": {
+                "title": "Vehicle",
+                "x-stoplight": {
+                    "id": "wr2d3ahr7pr28"
+                },
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "sourceId": {
+                        "$ref": "#/components/schemas/SourceId"
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive"
+                        ],
+                        "description": "The status in the providers system"
+                    },
+                    "vin": {
+                        "type": "string",
+                        "example": "1HGCM82633A004352"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Big Red"
+                    },
+                    "make": {
+                        "type": "string",
+                        "example": "Peterbilt"
+                    },
+                    "model": {
+                        "type": "string",
+                        "example": "Model 579"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "example": 2016
+                    },
+                    "licensePlate": {
+                        "type": "object",
+                        "properties": {
+                            "state": {
+                                "$ref": "#/components/schemas/State"
+                            },
+                            "number": {
+                                "type": "string",
+                                "example": "ABC-1234"
+                            }
+                        }
+                    },
+                    "raw": {
+                        "$ref": "#/components/schemas/RawDataList",
+                        "x-stoplight": {
+                            "id": "x4kmrmri1t63t"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "provider",
+                    "status"
+                ]
+            },
+            "SafetyEvent": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "sourceId": {
+                        "$ref": "#/components/schemas/SourceId"
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "speeding",
+                            "harsh_brake",
+                            "harsh_acceleration",
+                            "harsh_turn",
+                            "crash"
+                        ]
+                    },
+                    "driver": {
+                        "$ref": "#/components/schemas/ExpandableResource",
+                        "description": "The ID of the driver that was driving during the event."
+                    },
+                    "vehicle": {
+                        "$ref": "#/components/schemas/ExpandableResource",
+                        "description": "The ID of the vehicle that was involved in the event."
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "startLocation": {
+                        "$ref": "#/components/schemas/Coordinates"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endLocation": {
+                        "$ref": "#/components/schemas/Coordinates"
+                    },
+                    "stats": {
+                        "type": "object",
+                        "properties": {
+                            "maximumSpeed": {
+                                "$ref": "#/components/schemas/SpeedInKPH",
+                                "description": "Maximum speed of the vehicle in KPH"
+                            },
+                            "averageSpeed": {
+                                "$ref": "#/components/schemas/SpeedInKPH",
+                                "description": "Average speed of the vehicle in KPH"
+                            },
+                            "gForceForwardBackward": {
+                                "$ref": "#/components/schemas/GForce",
+                                "description": "The acceleration/breaking force as a factor of gravity (g)."
+                            },
+                            "gForceSideToSide": {
+                                "$ref": "#/components/schemas/GForce",
+                                "description": "The cornering (lateral) acceleration as a factor of gravity (g)."
+                            },
+                            "heading": {
+                                "$ref": "#/components/schemas/HeadingInDegrees",
+                                "description": "Heading of the vehicle (in degrees)"
+                            }
+                        }
+                    },
+                    "raw": {
+                        "$ref": "#/components/schemas/RawDataList",
+                        "x-stoplight": {
+                            "id": "gfpku4ldp4yqm"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "provider",
+                    "type",
+                    "startedAt"
+                ]
+            },
+            "VehicleLocation": {
+                "title": "Vehicle Location",
+                "x-stoplight": {
+                    "id": "w2lkyq5gs1yuu"
+                },
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "sourceId": {
+                        "$ref": "#/components/schemas/SourceId"
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode"
+                    },
+                    "vehicle": {
+                        "$ref": "#/components/schemas/ExpandableResource",
+                        "description": "The ID of the vehicle that the location is tracking."
+                    },
+                    "driver": {
+                        "$ref": "#/components/schemas/ExpandableResource",
+                        "description": "The driver that was driving the vehicle at"
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/Coordinates"
+                    },
+                    "heading": {
+                        "$ref": "#/components/schemas/HeadingInDegrees"
+                    },
+                    "speed": {
+                        "$ref": "#/components/schemas/SpeedInKPH"
+                    },
+                    "locatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "raw": {
+                        "$ref": "#/components/schemas/RawDataList",
+                        "x-stoplight": {
+                            "id": "alca1verthec8"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "provider",
+                    "vehicle",
+                    "location",
+                    "locatedAt"
+                ]
+            },
+            "BaseVehicleLog": {
+                "type": "object",
+                "x-stoplight": {
+                    "id": "7ddfb31490bfc"
+                },
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "sourceId": {
+                        "$ref": "#/components/schemas/SourceId"
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "vehicle": {
+                        "$ref": "#/components/schemas/ExpandableResource",
+                        "description": "Reference to the vehicle the event is about"
+                    }
+                },
+                "required": [
+                    "id",
+                    "provider",
+                    "type",
+                    "timestamp",
+                    "vehicle"
+                ]
+            },
+            "EngineStateLog": {
+                "x-stoplight": {
+                    "id": "a74db3e3d6afe"
+                },
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseVehicleLog"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "const": "engine_state"
+                            },
+                            "state": {
+                                "type": "string",
+                                "enum": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "state"
+                        ]
+                    }
+                ],
+                "title": "Engine State Log"
+            },
+            "OdometerLog": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/BaseVehicleLog"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "const": "odometer"
+                            },
+                            "odometer": {
+                                "$ref": "#/components/schemas/DistanceInKilometers",
+                                "description": "Odometer reading in meters"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "odometer"
+                        ]
+                    }
+                ],
+                "title": "Odometer Log",
+                "x-stoplight": {
+                    "id": "d1f59ebec366a"
+                }
+            },
+            "VehicleStatLog": {
+                "x-stoplight": {
+                    "id": "d1f59ebec366a"
+                },
+                "allOf": [
+                    {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/EngineStateLog"
+                            },
+                            {
+                                "$ref": "#/components/schemas/OdometerLog"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "raw": {
+                                "$ref": "#/components/schemas/RawDataList",
+                                "x-stoplight": {
+                                    "id": "7c0c5iujm1r4p"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "HOSLog": {
+                "title": "HOS Log",
+                "additionalProperties": false,
+                "x-stoplight": {
+                    "id": "vkyhqaw08til0"
+                },
+                "type": "object",
+                "description": "Records a change in duty status by a driver",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "sourceId": {
+                        "$ref": "#/components/schemas/SourceId"
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "off_duty",
+                            "sleeper_bed",
+                            "driving",
+                            "on_duty",
+                            "yard_move",
+                            "personal_conveyance"
+                        ]
+                    },
+                    "driver": {
+                        "$ref": "#/components/schemas/ExpandableResource",
+                        "description": "Reference to the driver for this log"
+                    },
+                    "vehicle": {
+                        "$ref": "#/components/schemas/ExpandableResource",
+                        "description": "The vehicle the driver was driving when the recorded the log."
+                    },
+                    "codrivers": {
+                        "type": "array",
+                        "description": "Additional drivers that were included in the HOS log.",
+                        "items": {
+                            "$ref": "#/components/schemas/ExpandableResource"
+                        }
+                    },
+                    "startedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "endedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "location": {
+                        "$ref": "#/components/schemas/Coordinates",
+                        "description": "Where the log was recorded"
+                    },
+                    "remarks": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "sourceId": {
+                                    "$ref": "#/components/schemas/SourceId"
+                                },
+                                "submittedAt": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "notes": {
+                                    "type": "string",
+                                    "description": "Additional comments"
+                                }
+                            },
+                            "required": [
+                                "notes"
+                            ]
+                        }
+                    },
+                    "raw": {
+                        "$ref": "#/components/schemas/RawDataList",
+                        "x-stoplight": {
+                            "id": "a4ey0nqsz4d8m"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "provider",
+                    "status",
+                    "driver",
+                    "startedAt",
+                    "remarks"
+                ]
+            },
+            "Phone": {
+                "title": "Phone",
+                "x-stoplight": {
+                    "id": "wrs6q0epplja0"
+                },
+                "type": "string",
+                "pattern": "^\\+?\\d{10,14}$",
+                "example": "+19058084567",
+                "description": "Phone number formatted in [E.164](https://www.twilio.com/docs/glossary/what-e164) formatting"
+            },
+            "State": {
+                "title": "State",
+                "x-stoplight": {
+                    "id": "5034215589b09"
+                },
+                "type": "string",
+                "enum": [
+                    "AL",
+                    "AK",
+                    "AZ",
+                    "AR",
+                    "CA",
+                    "CO",
+                    "CT",
+                    "DE",
+                    "FL",
+                    "GA",
+                    "HI",
+                    "ID",
+                    "IL",
+                    "IN",
+                    "IA",
+                    "KS",
+                    "KY",
+                    "LA",
+                    "ME",
+                    "MD",
+                    "MA",
+                    "MI",
+                    "MN",
+                    "MS",
+                    "MO",
+                    "MT",
+                    "NE",
+                    "NV",
+                    "NH",
+                    "NJ",
+                    "NM",
+                    "NY",
+                    "NC",
+                    "ND",
+                    "OH",
+                    "OK",
+                    "OR",
+                    "PA",
+                    "RI",
+                    "SC",
+                    "SD",
+                    "TN",
+                    "TX",
+                    "UT",
+                    "VT",
+                    "VA",
+                    "WA",
+                    "WV",
+                    "WI",
+                    "WY",
+                    "AB",
+                    "BC",
+                    "MB",
+                    "NB",
+                    "NL",
+                    "NS",
+                    "ON",
+                    "PE",
+                    "QC",
+                    "SK"
+                ],
+                "description": "US State or Canadian Province"
+            },
+            "Coordinates": {
+                "title": "Coordinates",
+                "x-stoplight": {
+                    "id": "uv778vxhb450c"
+                },
+                "type": "object",
+                "properties": {
+                    "longitude": {
+                        "type": "number",
+                        "example": -122.4194155
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "example": 37.7749295
+                    }
+                },
+                "required": [
+                    "longitude",
+                    "latitude"
+                ]
+            },
+            "Sync": {
+                "title": "Sync",
+                "x-stoplight": {
+                    "id": "ahwkf8v09thse"
+                },
+                "type": "object",
+                "description": "An object containing the state of a sync job. This can be polled after connection linking to know when data is available for ingestion.",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/Ulid"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "requested",
+                            "in_progress",
+                            "completed",
+                            "failed"
+                        ]
+                    },
+                    "failureReason": {
+                        "type": "string",
+                        "description": "If the sync failed, this will contain the reason"
+                    },
+                    "startFrom": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "The earliest records to sync for those based on time (ex: historical locations and stats)"
+                    },
+                    "requestedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "completedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "status",
+                    "requestedAt"
+                ]
+            },
+            "ErrorPathDetail": {
+                "title": "ErrorPathDetail",
+                "x-stoplight": {
+                    "id": "bjts8e8vplvui"
+                },
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "'vehicleId' property must be a valid Ulid"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "{requestQuery}.vehicleId"
+                    },
+                    "suggestion": {
+                        "type": "string",
+                        "example": "Please ensure you submit a valid 'vehicleId' property"
+                    },
+                    "context": {
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "message",
+                    "path"
+                ]
+            },
+            "PaginationCursor": {
+                "title": "Pagination Cursor",
+                "x-stoplight": {
+                    "id": "kiwuzxgshrqnd"
+                },
+                "type": "string",
+                "example": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "description": "Cursor used for pagination.",
+                "format": "cursor"
+            },
+            "Ulid": {
+                "title": "Ulid",
+                "x-stoplight": {
+                    "id": "ypsrygheaegxl"
+                },
+                "type": "string",
+                "format": "ulid",
+                "example": "id_pfx_01D8ZQFGHVJ858NBF2Q7DV9MNC",
+                "description": "A [Ulid](https://github.com/ulid/spec) to identify the object in the common model."
+            },
+            "SourceId": {
+                "title": "SourceId",
+                "x-stoplight": {
+                    "id": "dj1engurzwmmo"
+                },
+                "type": "string",
+                "example": "123456789",
+                "description": "The ID used to represent the entity in the source system."
+            },
+            "DurationInMS": {
+                "title": "DurationInMS",
+                "x-stoplight": {
+                    "id": "4pfxbpd5ba2fa"
+                },
+                "type": "number",
+                "description": "Duration in MS"
+            },
+            "SpeedInKPH": {
+                "title": "Speed In KPH",
+                "x-stoplight": {
+                    "id": "5ahzp68tuwhwf"
+                },
+                "type": "number",
+                "description": "Speed in KPH rounded to 2 decimal places.",
+                "example": 95.33
+            },
+            "GForce": {
+                "title": "G-Force",
+                "x-stoplight": {
+                    "id": "1mn9musc92ikq"
+                },
+                "type": "number",
+                "description": "Acceleration as a factor of gravity (g)",
+                "example": 1
+            },
+            "HeadingInDegrees": {
+                "title": "Heading In Degrees",
+                "x-stoplight": {
+                    "id": "yuep84e4vs8bp"
+                },
+                "type": "number",
+                "description": "Heading in degrees",
+                "example": 25
+            },
+            "DistanceInMeters": {
+                "title": "Distance In Meters",
+                "x-stoplight": {
+                    "id": "1cf3e824173f6"
+                },
+                "type": "number"
+            },
+            "DistanceInKilometers": {
+                "title": "Distance In Kilometers",
+                "type": "number",
+                "x-stoplight": {
+                    "id": "ffb07eaf8a1e6"
+                }
+            },
+            "ExpandableResource": {
+                "oneOf": [
+                    {
+                        "type": "string",
+                        "format": "ulid-expandable",
+                        "example": "id_pfx_01D8ZQFGHVJ858NBF2Q7DV9MNC"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "$ref": "#/components/schemas/Ulid"
+                            }
+                        },
+                        "required": [
+                            "id"
+                        ]
+                    }
+                ],
+                "description": "Entities in Terminal are expandable. Using the `expand` query parameter you can choose to ingest just an ID or the full entity details.",
+                "x-stoplight": {
+                    "id": "49e84eedeae87"
+                },
+                "title": ""
+            },
+            "PublicToken": {
+                "title": "Public Token",
+                "x-stoplight": {
+                    "id": "zkboqyid4wv2b"
+                },
+                "type": "string",
+                "example": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "description": "Token returned by the authentication flow. Public tokens are one time use and expire after they are exchanged for a long-lived connection token."
+            },
+            "BaseStatLog": {
+                "type": "object",
+                "properties": {
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "vehicle": {
+                        "$ref": "#/components/schemas/ExpandableResource"
+                    }
+                },
+                "required": [
+                    "provider",
+                    "timestamp",
+                    "vehicle"
+                ]
+            },
+            "PassthroughInput": {
+                "title": "Passthrough Input",
+                "x-stoplight": {
+                    "id": "mlwoegkwrmuw4"
+                },
+                "type": "object",
+                "properties": {
+                    "method": {
+                        "type": "string",
+                        "enum": [
+                            "GET",
+                            "POST",
+                            "PUT",
+                            "PATCH",
+                            "DELETE"
+                        ],
+                        "description": "The method for the third-party request, such as GET or POST.",
+                        "example": "POST"
+                    },
+                    "path": {
+                        "type": "string",
+                        "description": "The path for the third-party request, such as `/reports`",
+                        "example": "/reports"
+                    },
+                    "headers": {
+                        "type": "object",
+                        "description": "The headers to use for the request (Terminal will handle the connection's authorization headers)"
+                    },
+                    "body": {
+                        "type": "string",
+                        "description": "The request body",
+                        "example": "{\"reportId\":\"1234\"}"
+                    }
+                },
+                "required": [
+                    "method",
+                    "path"
+                ]
+            },
+            "PassthroughOutput": {
+                "title": "Passthrough Output",
+                "x-stoplight": {
+                    "id": "38id89ppzpg7d"
+                },
+                "type": "object",
+                "properties": {
+                    "method": {
+                        "type": "string",
+                        "description": "The HTTP method that was used when making the request.",
+                        "example": "POST"
+                    },
+                    "path": {
+                        "type": "string",
+                        "description": "The path that was called with the passthrough request.",
+                        "example": "GET",
+                        "default": "/reports"
+                    },
+                    "statusCode": {
+                        "type": "integer",
+                        "example": 200,
+                        "description": "The resulting status code from the passthrough request."
+                    },
+                    "headers": {
+                        "type": "object",
+                        "description": "Any returned headers from the passthrough request."
+                    },
+                    "response": {
+                        "type": "object",
+                        "description": "The response body from the passthrough request"
+                    }
+                },
+                "required": [
+                    "method",
+                    "path",
+                    "statusCode",
+                    "headers",
+                    "response"
+                ]
+            },
+            "RawData": {
+                "title": "Raw Data",
+                "x-stoplight": {
+                    "id": "688mmxystc4ck"
+                },
+                "type": "object",
+                "description": "Raw data fetched from the source provider. Most of our endpoints support a `raw` query parameter that will append a list of the raw requests used to form our common model. This can be helpful for leveraging unique fields that are not part of our unified model.",
+                "properties": {
+                    "provider": {
+                        "$ref": "#/components/schemas/ProviderCode",
+                        "x-stoplight": {
+                            "id": "m2aog3d5cd0sz"
+                        }
+                    },
+                    "schema": {
+                        "type": "string",
+                        "x-stoplight": {
+                            "id": "5xdh7vvfu2o3p"
+                        },
+                        "example": "Driver"
+                    },
+                    "extractedAt": {
+                        "type": "string",
+                        "x-stoplight": {
+                            "id": "o9kq6f2n5bnm3"
+                        },
+                        "format": "date-time"
+                    },
+                    "data": {
+                        "type": "object",
+                        "x-stoplight": {
+                            "id": "g0x58su4050kw"
+                        }
+                    }
+                },
+                "required": [
+                    "provider",
+                    "schema",
+                    "extractedAt",
+                    "data"
+                ]
+            },
+            "RawDataList": {
+                "title": "RawDataList",
+                "description": "List of the raw data used to normalize the common model. Response schemas will vary by provider.",
+                "x-stoplight": {
+                    "id": "jyk8l78z1p63g"
+                },
+                "type": "array",
+                "example": [],
+                "items": {
+                    "$ref": "#/components/schemas/RawData",
+                    "x-stoplight": {
+                        "id": "cjbudn6f1x7ns"
+                    }
+                },
+                "x-internal": false
+            }
+        },
+        "securitySchemes": {
+            "Authorization": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "parameters": {
+            "ConnectionToken": {
+                "name": "Connection-Token",
+                "in": "header",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "description": "The token returned when a user authenticated their account. This authorizes access to a specific account."
+            },
+            "Cursor": {
+                "name": "cursor",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "format": "cursor",
+                    "example": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                },
+                "description": "Pagination cursor to start requests from"
+            },
+            "Limit": {
+                "name": "limit",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "integer"
+                },
+                "description": "The maximum number of results to return in a page."
+            },
+            "ModifiedAfter": {
+                "name": "modifiedAfter",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "description": "Only include records that were last modified after a provided date."
+            },
+            "ModifiedBefore": {
+                "name": "modifiedBefore",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "description": "Only include records that were last modified before a provided date."
+            },
+            "StartAt": {
+                "name": "startAt",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "description": "Timestamp to start from - defaults to `TODAY - 1 MONTH`"
+            },
+            "EndAt": {
+                "name": "endAt",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "description": "Timestamp to end at - defaults to `TODAY`"
+            },
+            "DriverIds": {
+                "name": "driverIds",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                },
+                "description": "Comma separated list of driver IDs to filter for"
+            },
+            "VehicleIds": {
+                "name": "vehicleIds",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "string"
+                },
+                "description": "Comma separated list of vehicle IDs to filter for"
+            },
+            "Raw": {
+                "name": "raw",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "boolean"
+                },
+                "description": "Include raw responses used to normalize model. Used for debugging or accessing unique properties that are not unified."
+            },
+            "Feed": {
+                "name": "feed",
+                "in": "query",
+                "required": false,
+                "schema": {
+                    "type": "boolean"
+                },
+                "description": "Turns on feed mode. Will always return a `next` cursor in the response that can be used to fetch the next page of results - even if there are no results on the current page. This can be helpful to support incremental ingestion. Learn more by reading our guide on Syncing Data."
+            }
+        },
+        "responses": {
+            "BadRequestError": {
+                "description": "Bad Request",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Invalid request body"
+                                },
+                                "detail": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ErrorPathDetail"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "UnauthorizedError": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthorized Request"
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "example": "Please ensure you have a valid API key"
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "NotFoundError": {
+                "description": "Not Found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Resource not found"
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "example": "Could not find resource with ID: 2342342"
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "UnprocessableEntityError": {
+                "description": "Unprocessable Entity",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unprocessable Entity"
+                                },
+                                "detail": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ErrorPathDetail"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "InternalServerError": {
+                "description": "Internal Server Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Internal Server Error"
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "example": "Something went wrong"
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
+            "ForbiddenError": {
+                "description": "Forbidden",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Forbidden Request"
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "example": "Please ensure the connection token matches the resource you are attempting to access."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        {
+            "Authorization": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Authentication"
+        },
+        {
+            "name": "Vehicles"
+        },
+        {
+            "name": "Drivers"
+        },
+        {
+            "name": "Hours of Service"
+        },
+        {
+            "name": "Safety"
+        },
+        {
+            "name": "Connections"
+        },
+        {
+            "name": "Data Management"
+        }
+    ]
+}
