@@ -1,60 +1,38 @@
 ---
-title: Introduction
-description: 'Welcome to your new Mintlify documentation. Get started making it yours.'
+title: "Intro to Terminal"
+description: "Let's introduce you to some key features and ideas that exist in the Terminal API."
 ---
+<Note> 
+**Quick Start**
 
-## Setting up
+Already have your keys and just want to get going? Check out our [getting started](/getting-started) guide to jump straight to making API calls.
+</Note>
 
-The first step to world-class documentation is setting up your editing environnments.
+## What is Terminal?
 
-<CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development.
-  </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect.
-  </Card>
-</CardGroup>
+Terminal makes integrating with telematics and ELDs dramatically easier. We provide a single unified API to consistently sync normalized data from multiple third-party telematics service providers (TSPs).
 
-## Make it yours
+## Concepts
+### Common Model
 
-Update your docs to your brand and add valuable content for the best user conversion.
+To simplify development, all data is standardized to meet a common model. This allows you to think of all of your customer's data through the same lens - enabling multiple integrations with a fraction of the develoment effort.
 
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands.
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec.
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users.
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/showcase"
-  >
-    Check out our showcase of our favorite documentation.
-  </Card>
-</CardGroup>
+<img width="2000" src="/images/common-model.png" />
+
+### Account Linking
+We provide a simple [link](/link) component that can be embedded in your application. This helps to standardize authentication across all of your integrations. Allow Terminal to worry about the difference between given vendors while you focus on the core product features built on top of this data.
+
+### Connections
+After a customer succesfuly links their TSP account, a `Connection` is created. Connections have settings to control the frequency and access permissions to a given TSP account. As part of the link flow, you are provided with a connection token that you must provide to access this customer's data.
+
+### Telematics Service Provider (TSP)
+TSPs are the platforms that provide fleets with telematics devices and related software. Some popular examples of TSPs include Samsara, Motive or Geotab.
+
+### Electronic Logging Devices (ELD)
+Electronic Logging Devices (ELD) are a specific class of telematics device that support tracking a drivers hours of service (HOS).
+
+## Next Up
+
+Follow our getting started guide to learn how easy it is to get started on your integrations roadmap.
+
+<img src="/images/next-up.png" />
