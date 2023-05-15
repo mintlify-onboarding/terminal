@@ -48,7 +48,8 @@
       "pages": [
         "terminal-basics/authentication",
         "terminal-basics/resource-expansion",
-        "terminal-basics/environments"
+        "terminal-basics/environments",
+        "terminal-basics/passthrough"
       ]
     },
     {

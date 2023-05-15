@@ -1,0 +1,74 @@
+---
+title: "Passthrough"
+---
+With Terminal's authenticated passthrough request, direct requests to an integration's API can be made.
+
+Terminal simplifies API requests to any of the integrations supported by Terminal using the account tokens you've stored on behalf of your users. The requests are transmitted directly to the API of the integration and adhere to the specific API formats of each integration, not Terminal's standardized format. This approach is useful if you want to retrieve data that Terminal may not make requests for.
+
+<Info>
+Learn more by reviewing the documentation for [`/passthrough`]()
+</Info>
+
+### Request 
+
+<Card title="Passthrough Input" icon="cube" iconType="sharp-solid" color="#ef932b">
+<br />
+<ResponseField name="method" type="string" required>
+The method for the third-party request, such as `GET` or `POST`.
+
+Allowed values: `GET` `POST` `PUT` `PATCH` `DELETE`
+</ResponseField>
+
+<ResponseField name="path" type="string" required>
+The path for the third-party request, such as `/reports`
+
+Example: `/reports`
+</ResponseField>
+
+<ResponseField name="headers" type="object">
+The headers to use for the request (Terminal will handle the connection's authorization headers)
+</ResponseField>
+
+<ResponseField name="body" type="string">
+The request body
+
+Example: `{"reportId":"1234"}`
+</ResponseField>
+
+</Card>
+
+
+### Response
+
+<Card title="Passthrough Output" icon="cube" iconType="sharp-solid" color="#ef932b">
+
+<br />
+
+<ResponseField name="method" type="string" required>
+The HTTP method that was used when making the request.
+
+Example: `POST`
+</ResponseField>
+
+<ResponseField name="path" type="string" default="/reports" required>
+The path that was called with the passthrough request.
+
+Example: `GET`
+</ResponseField>
+
+<ResponseField name="statusCode" type="integer" required>
+The resulting status code from the passthrough request.
+
+Example: `200`
+</ResponseField>
+
+<ResponseField name="headers" type="object" required>
+Any returned headers from the passthrough request.
+</ResponseField>
+
+<ResponseField name="response" type="object" required>
+The response body from the passthrough request
+</ResponseField>
+
+
+</Card>
