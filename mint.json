@@ -6,9 +6,9 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#111A4A",
+    "primary": "#465399",
     "light": "#5584DA",
-    "dark": "#465399"
+    "dark": "#111A4A"
   },
   "topbarLinks": [
     {
@@ -39,7 +39,8 @@
       "group": "Introduction",
       "pages": [
         "introduction",
-        "getting-started"
+        "getting-started",
+        "link-component"
       ]
     },
     {

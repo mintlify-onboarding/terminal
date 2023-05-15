@@ -1,0 +1,106 @@
+---
+title: "Link Component"
+description: "Terminal provides a hosted 'Link' that makes it easy to connect to any of your customers' providers. With only a few steps you will be able to provide customers an easy self-serve flow to connect their telematics account."
+---
+
+<img src="/images/link-component.png" />
+
+## Flows
+
+### Authentication
+Terminal handles capturing, validating and securely storing customer's credentials to ensure that each TSP integration is as consistent as possible. Here's an overview of the steps involved in that flow.
+
+**Steps**
+1. Create auth link with desired options (see available options below)
+2. Ask user to login to their TSP and direct to link
+3. User is redirected back to the `redirect_url` with the following paramaters:
+    - `result`: Will either be `success` or `exit`
+    - `token`: Public token when `result === success`
+4 .Pass public token to your backend and exchange public token for a connection token
+5. Wait for initial sync to complete (can check with `/connections/current`)
+6. Ingest data from Terminal
+
+**Example Link**
+Here's an example of a Link URL for authenticating new connections:
+```
+https://link.sandbox.withterminal.com/?key=PUBLISHABLE_KEY&redirect_url={URL}
+```
+
+### Re-Authentication
+There are rare times where connections may get disconnected. Common reasons for this include when customers change their password or revoke access.
+
+When this happens - Terminal will update the status of the Connection to `disconnected` and prompt you to reauthenticate the customer's TSP in order to resume syncing.
+
+Reauthentication is similar to the link flow but includes the `connectionId` in the URL path to denote which connection you would like to update.
+
+**Steps**
+1. Get re-auth link for disconnected connection (see example below)
+2. Explain to user they need to enter their credentials again and direct them to link to perform authentication
+3. Wait for catch up sync to complete (can check with `/connections/current`)
+4. Resume ingesting data after sync completes
+
+**Example Link**
+Here's an example of a Link URL for re-authenticating existing connections:
+```
+https://link.sandbox.withterminal.com/connection/conn_01GSKTHCD24NRZ2SBJTPZBCQ1R?key=PUBLISHABLE_KEY&redirect_url={URL}
+```
+
+<Info>
+**Special Note**
+
+During re-auth, you must link the same TSP account. Should your customer want to change accounts then they will need to create a new connection
+</Info>
+
+
+## Available Options
+You can use the following options when directing customers to the link in order to control behaviour. Please note these settings do not apply to the re-authentication flow.
+
+### Base URL
+
+| Environment | URL                           |
+| -------- | ------------------------------------- |
+| `prod`    | `https://link.withterminal.com/?key={PUBLISHABLE_KEY}&redirect_url={REDIRECT_URL}`                    |
+| `sandbox`    | `https://link.sandbox.withterminal.com/?key={PUBLISHABLE_KEY}&redirect_url={REDIRECT_URL}`                       |
+
+### Query Parameters
+The following options can be appended as query parameters to the link URL in order to modify the settings of the resulting connection.
+
+<ResponseField name="key" type="string" required>
+Your application's publishable key
+
+Example: `pk_prod_SDFsdflokjsdfloiLKDNF`
+</ResponseField>
+
+<ResponseField name="redirect_url" type="string<uri>" required>
+Where you want to direct users after they succesfully complete or exit the link flow. This is required for initial authentication in order to exchange the public token but is optional during re-authentication.
+
+Example: `https://app.example.com/telematics-success`
+</ResponseField>
+
+<ResponseField name="name" type="string">
+A friendly name to give the resulting connection - if not provided, we will attempt to pull this from the TSP
+</ResponseField>
+
+<ResponseField name="external_id" type="string">
+ID field to reference an identifier from your system with the resulting connection
+</ResponseField>
+
+<ResponseField name="provider" type="string">
+A specific provider you would like the customer to authenticate with - skips the first screen
+
+Example: `geotab`
+</ResponseField>
+
+<ResponseField name="sync_mode" type="string" default="manual">
+Whether to automatically schedule future syncing after the initial sync
+
+Allowed values: `automatic` `manual`
+</ResponseField>
+
+<ResponseField name="backfill_days" type="number" default="0">
+Number of days of historical data to backfill (can not use alongside `backfill_start_from`)
+</ResponseField>
+
+<ResponseField name="backfill_start_from" type="string<date-time">
+ISO8601 date to start backfilling from (can not use alongside `backfill_days`)
+</ResponseField>
