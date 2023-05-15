@@ -1,0 +1,9 @@
+---
+title: "Request Sync"
+description: "Manually request to sync the current connections data."
+openapi: "POST /syncs"
+---
+
+By default, Terminal will sync all connections where `syncMode = automatic` on a regular cadence. For customers that may not need a fleet's data to be kept up to date and want to reduce their active tracked trucks, you can set `syncMode = manual` and invoke this endpoint when you want to sync data.
+
+If you're wondering if this is relevent to your use case then feel free to reach out and we'd be happy to assist.

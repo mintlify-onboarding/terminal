@@ -80,6 +80,32 @@
         "api-reference/drivers/list-drivers",
         "api-reference/drivers/get-drivers"
       ]
+    },
+    {
+      "group": "Hours of Service",
+      "pages": ["api-reference/hours-of-service/list-hours-of-service-log"]
+    },
+    {
+      "group": "Safety",
+      "pages": ["api-reference/safety/list-safety-events"]
+    },
+    {
+      "group": "Connections",
+      "pages": [
+        "api-reference/connections/list-all-connections",
+        "api-reference/connections/create-connection",
+        "api-reference/connections/get-current-connection",
+        "api-reference/connections/update-current-connections"
+      ]
+    },
+    {
+      "group": "Data Management",
+      "pages": [
+        "api-reference/data-management/request-sync",
+        "api-reference/data-management/list-sync-history",
+        "api-reference/data-management/get-sync-job-status",
+        "api-reference/data-management/passthrough"
+      ]
     }
   ],
   "footerSocials": {
