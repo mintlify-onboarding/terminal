@@ -49,7 +49,10 @@
         "terminal-basics/authentication",
         "terminal-basics/resource-expansion",
         "terminal-basics/environments",
-        "terminal-basics/passthrough"
+        "terminal-basics/passthrough",
+        "terminal-basics/raw-data",
+        "terminal-basics/syncing-data",
+        "terminal-basics/rate-limits"
       ]
     },
     {
@@ -69,6 +72,13 @@
         "api-reference/vehicles/get-vehicle",
         "api-reference/vehicles/historical-vehicle-locations",
         "api-reference/vehicles/historical-vehicle-stats"
+      ]
+    },
+    {
+      "group": "Drivers",
+      "pages": [
+        "api-reference/drivers/list-drivers",
+        "api-reference/drivers/get-drivers"
       ]
     }
   ],

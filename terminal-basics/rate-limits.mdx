@@ -1,0 +1,30 @@
+---
+title: "Rate Limits"
+description: "Terminal enforces API Rate Limits to protect against traffic spikes impacting our system and other Terminal customers."
+---
+## Global Rate Limits
+
+Every endpoint enforces the following rate limits:
+
+- **Per Connection**
+    - Each connection token may make **100 API requests per second**
+- **Per Application**
+    - Each application may make **200 API requests per second**
+
+This means that if you have multiple connections, you may make up to 100 requests per second per connection with a maximum of 200 requests per second across all connections.
+
+
+## Handling Rate Limit Errors
+
+When you exceed the rate limit, you will receive a `429 Too Many Requests` error. The response body will contain a `Retry-After` header with the number of seconds you should wait before retrying the request.
+
+### Example
+```json
+HTTP/1.1 429 Too Many Requests
+Retry-After: 0.62
+Content-Type: application/json
+Body: {
+  "message": "Too Many Requests",
+  "detail": "API rate limit exceeded - please try again in 0.62 s"
+}
+```

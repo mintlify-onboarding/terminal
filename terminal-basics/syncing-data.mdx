@@ -1,0 +1,64 @@
+---
+title: "Syncing Data"
+---
+## Overview
+After a connection is created, Terminal syncs and normalizes data incrementally to ensure it is always up-to-date. Use the `/connections/current` or `/syncs` endpoints to track when data is synced from the source system to Terminal before querying for data.
+
+
+## Sync Modes
+Terminal connections can be configured to sync data automatically or manually:
+- Automatic syncing is configured by default and will sync data every 24 hours to Terminal.
+    - Automatic syncing is configured by setting the connection's `syncMode` to `automatic`.
+- Manual syncing is useful to save costs if you only need to sync data periodically.
+    - Manual syncing is configured by setting the connection's `syncMode` to `manual`.
+
+A sync can be requested at any time for a connection by calling the `POST /syncs` endpoint. This endpoint will return an `id` that can be used to check the status of the sync
+
+
+## Best Practices for Syncing
+
+### 1. Create functions in your backend that are responsible for syncing data
+Terminal provides 2 types of data: **dynamic** and **event**.
+
+**Syncing Dynamic Data**
+
+Dynamic data is data that may change. Examples include vehicles, drivers and HOS logs.
+
+Use the `modifiedAfter` timestamp filter to only ingest data that has changed since the **start time** of when you last synced. This filter is important to ensure you only pull data that has been modified (or created) since the last time you synced.
+
+Continue to pull data until the response does not include a `next` cursor.
+
+**Example**
+
+If you last started syncing at `2022-01-01T00:00:00.000Z` you should make the following request
+```
+GET /hos/logs?modifiedAfter=2022-01-01T00:00:00.000Z
+```
+
+<Note>
+**Note**: Ensure you store the start time of the last sync as data can change while you are syncing. This will ensure you never miss a change.
+</Note>
+
+**Syncing Event Data**
+
+Event data is data with a timestamp that is expected to be static. Examples include vehicle locations and stats.
+
+Event data endpoints will **not** include a `modifiedAfter` filter but will always return records in ascending order. Event endpoints will include `startAt` and `endAt` timestamp filters to limit data to a specific time period.
+
+To support incremental ingestion of event data, use the `feed` parameter to ensure that a `next` cursor is **always** returned. This will allow you to pull data in a loop until the response returns an empty array, storing the `next` cursor for the next time you sync.
+
+<Note>
+**Note**: Ensure you store the next cursor of the last request in order resume syncing from where you left off.
+</Note>
+
+### 2. Orchestrate the sync
+
+Setup a scheduled job on your backend to sync data periodically for each connection.
+
+Some of our endpoints (ex: historical vehicle locations) require that you query them by vehicle. We recommend syncing vehicles first and then scheduling jobs to pull data for each vehicle.
+
+Currently our system schedules syncs every 24 hours so please note that data will only be updated upon completion of syncing in our system. You can use the `/syncs` or `/connections/current` endpoints to know when data has been synced from the source system to Terminal.
+
+<Note>
+If you need data more frequently - please reach out to our team and we'd be happy to help support your use case.
+</Note>

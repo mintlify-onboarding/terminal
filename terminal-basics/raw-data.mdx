@@ -1,0 +1,51 @@
+---
+title: "Raw Data"
+---
+## Overview
+Many of Terminal's endpoints support a `raw` parameter that enables you to retreive the underlying raw data used to form the common model. This can helpful in scenarios when a provider includes very unique fields that may not fit in to a unified model.
+
+### Considerations
+It's important to note that using the `raw` parameter will impact response times and should only be used in scenarios where it is necessary.
+
+If you plan to use `raw`, please let us know as we are always curious to hear about gaps in our common model that might be roadmap opportunities.
+
+
+## Usage
+When making a `GET` call to a supported endpoint, set the `raw` query parameter to `true` and retreive the common model as well as an additional `raw` property that includes the most recent list of raw responses used to form the common model.
+
+### Example Response
+Here's an example of a request to `/vehicles/{id}?raw=true`
+
+```JSON
+{
+  "id": "id_pfx_01D8ZQFGHVJ858NBF2Q7DV9MNC",
+  "sourceId": "33901",
+  "provider": "verizon-reveal",
+  "status": "active",
+  "name": "FD 0339",
+  "make": "FORD",
+  "model": "ECONOLINE",
+  "year": 2010,
+  "raw": [
+    {
+      "provider": "verizon-reveal",
+      "schema": "Vehicle",
+      "extractedAt": "2023-03-26T17:57:40.942Z",
+      "data": {
+        "Name": "FD 0339",
+        "VehicleNumber": "33901",
+        "RegistrationNumber": null,
+        "VIN": null,
+        "Make": "FORD",
+        "Year": 2010,
+        "Model": "ECONOLINE",
+        "TankCapacity": null,
+        "HighwayMPG": null,
+        "CityMPG": null,
+        "VehicleSize": 0,
+        "HasNavigationDevice": true
+      }
+    }
+  ]
+}
+```
