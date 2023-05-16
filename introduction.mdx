@@ -1,11 +1,12 @@
 ---
-title: "Intro to Terminal"
+title: 'Intro to Terminal'
 description: "Let's introduce you to some key features and ideas that exist in the Terminal API."
 ---
-<Note> 
-**Quick Start**
 
-Already have your keys and just want to get going? Check out our [getting started](/getting-started) guide to jump straight to making API calls.
+<Note>
+  **Quick Start** Already have your keys and just want to get going? Check out
+  our [getting started](/getting-started) guide to jump straight to making API
+  calls.
 </Note>
 
 ## What is Terminal?
@@ -13,6 +14,7 @@ Already have your keys and just want to get going? Check out our [getting starte
 Terminal makes integrating with telematics and ELDs dramatically easier. We provide a single unified API to consistently sync normalized data from multiple third-party telematics service providers (TSPs).
 
 ## Concepts
+
 ### Common Model
 
 To simplify development, all data is standardized to meet a common model. This allows you to think of all of your customer's data through the same lens - enabling multiple integrations with a fraction of the develoment effort.
@@ -20,15 +22,19 @@ To simplify development, all data is standardized to meet a common model. This a
 <img width="2000" src="/images/common-model.png" />
 
 ### Account Linking
+
 We provide a simple [link](/link) component that can be embedded in your application. This helps to standardize authentication across all of your integrations. Allow Terminal to worry about the difference between given vendors while you focus on the core product features built on top of this data.
 
 ### Connections
+
 After a customer succesfuly links their TSP account, a `Connection` is created. Connections have settings to control the frequency and access permissions to a given TSP account. As part of the link flow, you are provided with a connection token that you must provide to access this customer's data.
 
 ### Telematics Service Provider (TSP)
+
 TSPs are the platforms that provide fleets with telematics devices and related software. Some popular examples of TSPs include Samsara, Motive or Geotab.
 
 ### Electronic Logging Devices (ELD)
+
 Electronic Logging Devices (ELD) are a specific class of telematics device that support tracking a drivers hours of service (HOS).
 
 ## Next Up

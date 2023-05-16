@@ -909,7 +909,6 @@
                                 "additionalProperties": true,
                                 "allOf": [
                                     {
-                                        "$ref": "./provider-credentials.openapi.json#/components/schemas/ProviderCredentials",
                                         "x-stoplight": {
                                             "id": "652tmw0gn0kbg"
                                         }
