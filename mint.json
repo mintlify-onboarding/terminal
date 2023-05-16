@@ -13,7 +13,7 @@
   "topbarLinks": [
     {
       "name": "Contact Us",
-      "url": "https://www.withterminal.com/"
+      "url": "mailto:withterminal.com"
     }
   ],
   "topbarCtaButton": {
@@ -25,6 +25,11 @@
       "name": "API Reference",
       "icon": "rectangle-terminal",
       "url": "api-reference"
+    },
+    {
+      "name": "Contact Us",
+      "icon": "envelope",
+      "url": "mailto:withterminal.com"
     }
   ],
   "api": {
