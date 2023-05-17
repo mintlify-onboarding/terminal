@@ -1,4 +1,5 @@
 {
+  "$schema": "https://mintlify.com/schema.json",
   "name": "Terminal",
   "logo": {
     "dark": "/logo/dark.svg",
@@ -34,6 +35,9 @@
   ],
   "api": {
     "baseUrl": "https://api.withterminal.com/tsp/v1"
+  },
+  "modeToggle": {
+    "default": "light"
   },
   "navigation": [
     {
