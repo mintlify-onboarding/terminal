@@ -34,7 +34,10 @@
     }
   ],
   "api": {
-    "baseUrl": "https://api.withterminal.com/tsp/v1"
+    "baseUrl": "https://api.withterminal.com/tsp/v1",
+    "auth": {
+      "method": "bearer"
+    }
   },
   "modeToggle": {
     "default": "light"
