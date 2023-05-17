@@ -111,45 +111,6 @@
         "api-reference/data-management/get-sync-job-status",
         "api-reference/data-management/passthrough"
       ]
-    },
-    {
-      "group": "Schemas",
-      "pages": [
-        "api-reference/schemas/provider-code",
-        "api-reference/schemas/connection-status",
-        "api-reference/schemas/sync-mode",
-        "api-reference/schemas/connection",
-        "api-reference/schemas/driver",
-        "api-reference/schemas/vehicle",
-        "api-reference/schemas/safety-event",
-        "api-reference/schemas/vehicle-location",
-        "api-reference/schemas/base-vehicle-log",
-        "api-reference/schemas/base-vehicle-log",
-        "api-reference/schemas/odometer-log",
-        "api-reference/schemas/vehicle-stat-log",
-        "api-reference/schemas/hos-log",
-        "api-reference/schemas/phone",
-        "api-reference/schemas/state",
-        "api-reference/schemas/coordinates",
-        "api-reference/schemas/sync",
-        "api-reference/schemas/error-path-detail",
-        "api-reference/schemas/pagination",
-        "api-reference/schemas/ulid",
-        "api-reference/schemas/source-id",
-        "api-reference/schemas/duration-in-ms",
-        "api-reference/schemas/speed-in-khs",
-        "api-reference/schemas/gforce",
-        "api-reference/schemas/heading-in-degrees",
-        "api-reference/schemas/distance-in-meters",
-        "api-reference/schemas/distance-in-kilometers",
-        "api-reference/schemas/expandable-resource",
-        "api-reference/schemas/public-token",
-        "api-reference/schemas/base-stat-log",
-        "api-reference/schemas/passthrough-input",
-        "api-reference/schemas/passthrough-ouput",
-        "api-reference/schemas/raw-data",
-        "api-reference/schemas/raw-data-list"
-      ]
     }
   ],
   "footerSocials": {
