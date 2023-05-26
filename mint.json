@@ -37,7 +37,8 @@
     "baseUrl": "https://api.withterminal.com/tsp/v1",
     "auth": {
       "method": "bearer"
-    }
+    },
+    "maintainOrder": true
   },
   "modeToggle": {
     "default": "light"
