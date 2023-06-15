@@ -488,9 +488,6 @@
                     },
                     {
                         "$ref": "#/components/parameters/Raw"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Feed"
                     }
                 ],
                 "description": "List the historical breadcrumb locations for a vehicle.\n\n*Note:*\n\nGiven the large volume of location data available, we encourage customers to accept compressed (`gzip`) responses in order to maximize throughput. This is supported with many popular HTTP clients. Result limits vary depending on if results are compressed or not."
@@ -602,9 +599,6 @@
                     },
                     {
                         "$ref": "#/components/parameters/Raw"
-                    },
-                    {
-                        "$ref": "#/components/parameters/Feed"
                     }
                 ]
             }
@@ -909,6 +903,7 @@
                                 "additionalProperties": true,
                                 "allOf": [
                                     {
+                                        "$ref": "#/components/schemas/ProviderCredentials",
                                         "x-stoplight": {
                                             "id": "652tmw0gn0kbg"
                                         }
@@ -958,10 +953,11 @@
                                                 "x-stoplight": {
                                                     "id": "3fwcqymlsqahx"
                                                 },
+                                                "additionalProperties": false,
                                                 "description": "Optional backfill to be requested upon successful connection. Will start from NOW if not provided.",
                                                 "type": "object",
                                                 "properties": {
-                                                    "syncFrom": {
+                                                    "startFrom": {
                                                         "type": "string",
                                                         "format": "date-time"
                                                     },
@@ -1858,7 +1854,8 @@
                                 "type": "string",
                                 "enum": [
                                     "on",
-                                    "off"
+                                    "off",
+                                    "idle"
                                 ]
                             }
                         },
@@ -2039,6 +2036,7 @@
                 "enum": [
                     "AL",
                     "AK",
+                    "AS",
                     "AZ",
                     "AR",
                     "CA",
@@ -2047,6 +2045,7 @@
                     "DE",
                     "FL",
                     "GA",
+                    "GU",
                     "HI",
                     "ID",
                     "IL",
@@ -2060,6 +2059,7 @@
                     "MA",
                     "MI",
                     "MN",
+                    "MP",
                     "MS",
                     "MO",
                     "MT",
@@ -2075,6 +2075,7 @@
                     "OK",
                     "OR",
                     "PA",
+                    "PR",
                     "RI",
                     "SC",
                     "SD",
@@ -2087,6 +2088,7 @@
                     "WV",
                     "WI",
                     "WY",
+                    "VI",
                     "AB",
                     "BC",
                     "MB",
@@ -2096,7 +2098,8 @@
                     "ON",
                     "PE",
                     "QC",
-                    "SK"
+                    "SK",
+                    "UM"
                 ],
                 "description": "US State or Canadian Province"
             },
@@ -2461,6 +2464,265 @@
                     }
                 },
                 "x-internal": false
+            },
+            "GeotabCredentials": {
+              "title": "GeotabCredentials",
+              "x-stoplight": {
+                "id": "3gmsgc79futmr"
+              },
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "title": "Username",
+                  "x-stoplight": {
+                    "id": "w7b63vw2mr6dd"
+                  }
+                },
+                "password": {
+                  "type": "string",
+                  "title": "Password",
+                  "x-stoplight": {
+                    "id": "f4o3qlhv53i7e"
+                  }
+                },
+                "database": {
+                  "type": "string",
+                  "title": "Database",
+                  "x-stoplight": {
+                    "id": "oo8mpabzs26t9"
+                  }
+                }
+              },
+              "required": ["username", "password"]
+            },
+            "VerizonRevealCredentials": {
+              "title": "VerizonRevealCredentials",
+              "x-stoplight": {
+                "id": "qlyq954zwqysl"
+              },
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "title": "API Username",
+                  "x-stoplight": {
+                    "id": "33vxxi077gt7j"
+                  }
+                },
+                "password": {
+                  "type": "string",
+                  "title": "API Password",
+                  "x-stoplight": {
+                    "id": "coima4dt002p8"
+                  }
+                }
+              },
+              "required": ["username", "password"]
+            },
+            "SandboxCredentials": {
+              "title": "SandboxCredentials",
+              "x-stoplight": {
+                "id": "l3ltelsmm9lhx"
+              },
+              "type": "object",
+              "properties": {
+                "apiKey": {
+                  "type": "string",
+                  "title": "API Key",
+                  "x-stoplight": {
+                    "id": "u87sgfaxyenso"
+                  }
+                }
+              },
+              "required": ["apiKey"]
+            },
+            "OAuthCredentials": {
+              "title": "OAuthCredentials",
+              "x-stoplight": {
+                "id": "23hl1kblohh4x"
+              },
+              "oneOf": [
+                {
+                  "title": "Authorization Code",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "wip2jww4tn8ry"
+                      }
+                    }
+                  },
+                  "required": ["code"]
+                },
+                {
+                  "x-stoplight": {
+                    "id": "k7z7v6bsou1wo"
+                  },
+                  "title": "Refresh Token",
+                  "properties": {
+                    "refresh_token": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "ipxj83kacjrni"
+                      }
+                    }
+                  },
+                  "required": ["refresh_token"]
+                }
+              ],
+              "type": "object"
+            },
+            "ProviderCredentials": {
+              "x-stoplight": {
+                "id": "xx9nwt3012cp6"
+              },
+              "discriminator": {
+                "propertyName": "provider"
+              },
+              "oneOf": [
+                {
+                  "title": "Geotab",
+                  "properties": {
+                    "provider": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "av28l29qff6g8"
+                      },
+                      "enum": ["geotab"]
+                    },
+                    "credentials": {
+                      "$ref": "#/components/schemas/GeotabCredentials",
+                      "x-stoplight": {
+                        "id": "h75naz3xnhf66"
+                      }
+                    }
+                  },
+                  "required": ["provider", "credentials"]
+                },
+                {
+                  "title": "Verizon Reveal",
+                  "x-stoplight": {
+                    "id": "gczeiw9mvdn0b"
+                  },
+                  "properties": {
+                    "provider": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "tsbtopdl8kp0w"
+                      },
+                      "enum": ["verizon-reveal"]
+                    },
+                    "credentials": {
+                      "$ref": "#/components/schemas/VerizonRevealCredentials",
+                      "x-stoplight": {
+                        "id": "ah9gbj4eit8va"
+                      }
+                    }
+                  },
+                  "required": ["provider", "credentials"]
+                },
+                {
+                  "title": "Sandbox",
+                  "x-stoplight": {
+                    "id": "cgl6qgm5b2dm6"
+                  },
+                  "properties": {
+                    "provider": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "5d7rv4kwzp3hn"
+                      },
+                      "enum": ["sandbox"]
+                    },
+                    "credentials": {
+                      "$ref": "#/components/schemas/SandboxCredentials",
+                      "x-stoplight": {
+                        "id": "t0b50gsf934sk"
+                      }
+                    }
+                  },
+                  "required": ["provider", "credentials"]
+                },
+                {
+                  "title": "Samsara",
+                  "x-stoplight": {
+                    "id": "c7cidx2cd37eq"
+                  },
+                  "properties": {
+                    "provider": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "a658hckp817v9"
+                      },
+                      "enum": ["samsara"]
+                    },
+                    "credentials": {
+                      "$ref": "#/components/schemas/SamsaraCredentials",
+                      "x-stoplight": {
+                        "id": "msjwzxo8uqhc7"
+                      }
+                    }
+                  },
+                  "required": ["provider", "credentials"]
+                },
+                {
+                  "x-stoplight": {
+                    "id": "a46gyzk4d234u"
+                  },
+                  "title": "Motive",
+                  "properties": {
+                    "provider": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "u4l7zggm5bm40"
+                      },
+                      "enum": ["motive"]
+                    },
+                    "credentials": {
+                      "$ref": "#/components/schemas/MotiveCredentials",
+                      "x-stoplight": {
+                        "id": "jp2mu0p54nmme"
+                      }
+                    }
+                  },
+                  "required": ["provider", "credentials"]
+                }
+              ],
+              "type": "object"
+            },
+            "SamsaraCredentials": {
+              "title": "SamsaraCredentials",
+              "x-stoplight": {
+                "id": "gwfdh5ymx3xiv"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/OAuthCredentials"
+                },
+                {
+                  "type": "object",
+                  "x-stoplight": {
+                    "id": "bfm0olqmqvpb3"
+                  },
+                  "properties": {
+                    "apiKey": {
+                      "type": "string",
+                      "x-stoplight": {
+                        "id": "x6kbqdwj6xao5"
+                      }
+                    }
+                  },
+                  "required": ["apiKey"]
+                }
+              ]
+            },
+            "MotiveCredentials": {
+              "$ref": "#/components/schemas/OAuthCredentials",
+              "x-stoplight": {
+                "id": "op175lyokzb6p"
+              },
+              "title": "MotiveCredentials"
             }
         },
         "securitySchemes": {
@@ -2564,15 +2826,6 @@
                     "type": "boolean"
                 },
                 "description": "Include raw responses used to normalize model. Used for debugging or accessing unique properties that are not unified."
-            },
-            "Feed": {
-                "name": "feed",
-                "in": "query",
-                "required": false,
-                "schema": {
-                    "type": "boolean"
-                },
-                "description": "Turns on feed mode. Will always return a `next` cursor in the response that can be used to fetch the next page of results - even if there are no results on the current page. This can be helpful to support incremental ingestion. Learn more by reading our guide on Syncing Data."
             }
         },
         "responses": {
